@@ -1,5 +1,4 @@
-
-###> symfony/framework-bundle ###
+# Symfony framework
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -7,15 +6,25 @@
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
 
-###> phpunit/phpunit ###
+# PHPUnit
 /phpunit.xml
 /.phpunit.cache/
-###< phpunit/phpunit ###
 
-###> symfony/asset-mapper ###
+# Asset mapper
 /public/assets/
 /assets/vendor/
-###< symfony/asset-mapper ###
+
+# Node.js
 /node_modules/
+
+# Archivos de entorno
+/.env.dev
+/.env.test
+/.env
+
+# Archivos del sistema / IDE
+.DS_Store
+Thumbs.db
+/.vscode/
+
