@@ -2,8 +2,8 @@
 
 Proyecto final del módulo de PHP / Symfony.
 
-BookMarket es una aplicación web que se desarrollará con Symfony para la gestión de libros usados.  
-Actualmente, el proyecto se encuentra en la **fase inicial de configuración y control de versiones**, sirviendo como base para el desarrollo posterior.
+BookMarket es una aplicación web desarrollada con Symfony para la gestión de libros usados, incluyendo categorías, pedidos y usuarios.  
+Actualmente, el proyecto cuenta con las **entidades principales** y sus **controladores CRUD básicos**.
 
 ---
 
@@ -16,7 +16,24 @@ Actualmente, el proyecto se encuentra en la **fase inicial de configuración y c
 - Enlace del proyecto con GitHub (`bookmarket_frp`)
 - Creación del archivo README.md con datos del autor y curso
 
-*(Próximamente se añadirán funcionalidades de login, CRUD de libros y base de datos.)*
+### v0.2 – 02/02/2026
+- Creación de las entidades:
+    - `Book` (libros)
+    - `Categoria` (categorías de libros)
+    - `User` (usuarios)
+    - `Pedido` (pedidos)
+    - `Mensaje` (mensajes)
+    - `Valoracion` (valoraciones de libros)
+- Implementación de **controladores CRUD** para:
+    - `Book`
+    - `Categoria`
+    - `User`
+    - `Pedido`
+- Configuración de relaciones entre `Book` y `Categoria`
+- Formularios básicos generados (`BookType`, `CategoriaType`, `UserType`, `PedidoType`)
+- Configuración inicial de rutas para las entidades
+
+*(Próximamente se implementarán la autenticación de usuarios, gestión de valoraciones y mensajes, y mejora de formularios y vistas.)*
 
 ---
 
@@ -31,13 +48,8 @@ Actualmente, el proyecto se encuentra en la **fase inicial de configuración y c
 
 ---
 
-## Ejecución del proyecto (cuando esté implementado)
-
-Las instrucciones de instalación y ejecución se detallarán a medida que el proyecto avance.
-
----
-
 ## Autor
 
 **Francisco Rodríguez Pires**  
 Curso DAW
+
