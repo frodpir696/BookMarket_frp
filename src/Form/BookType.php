@@ -15,26 +15,25 @@ class BookType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titulo')
-            ->add('autor')
-            ->add('descripcion')
-            ->add('estado')
-            ->add('precio')
+            ->add('titulo', null, [
+                'label' => 'Título',
+            ])
+            ->add('autor', null, [
+                'label' => 'Autor',
+            ])
+            ->add('descripcion', null, [
+                'label' => 'Descripción',
+            ])
+            ->add('estado', null, [
+                'label' => 'Estado del libro',
+            ])
+            ->add('precio', null, [
+                'label' => 'Precio (€)',
+            ])
             ->add('categoria', EntityType::class, [
                 'class' => Categoria::class,
-                'choice_label' => 'id',
-            ])
-            ->add('usuario', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Book::class,
-        ]);
+                'choice_label' => 'nombre',
+                'label' => 'Categoría',
+            ]);
     }
 }

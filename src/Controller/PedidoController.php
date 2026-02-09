@@ -71,7 +71,8 @@ final class PedidoController extends AbstractController
     #[Route('/{id}', name: 'app_pedido_delete', methods: ['POST'])]
     public function delete(Request $request, Pedido $pedido, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$pedido->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$pedido->getId(), $request->request->get('_token')
+        )) {
             $entityManager->remove($pedido);
             $entityManager->flush();
         }

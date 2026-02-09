@@ -17,25 +17,16 @@ class PedidoType extends AbstractType
         $builder
             ->add('fecha', null, [
                 'widget' => 'single_text',
+                'label' => 'Fecha del pedido',
             ])
-            ->add('estado')
-            ->add('total')
-            ->add('comprador', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
+            ->add('estado', null, [
+                'label' => 'Estado',
             ])
             ->add('books', EntityType::class, [
                 'class' => Book::class,
-                'choice_label' => 'id',
+                'choice_label' => 'titulo',
                 'multiple' => true,
-            ])
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => Pedido::class,
-        ]);
+                'label' => 'Libros',
+            ]);
     }
 }
