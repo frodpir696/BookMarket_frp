@@ -9,12 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/book')]
 final class BookController extends AbstractController
 {
-    #[Route(name: 'app_book_index', methods: ['GET'])]
+    #[Route('/', name: 'app_book_index', methods: ['GET'])]
     public function index(BookRepository $bookRepository): Response
     {
         return $this->render('book/index.html.twig', [
@@ -23,59 +23,49 @@ final class BookController extends AbstractController
     }
 
     #[Route('/new', name: 'app_book_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $book = new Book();
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($book);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
+            $em->persist($book);
+            $em->flush();
+            return $this->redirectToRoute('app_book_index');
         }
 
-        return $this->render('book/new.html.twig', [
-            'book' => $book,
-            'form' => $form,
-        ]);
+        return $this->render('book/new.html.twig', ['form' => $form->createView()]);
     }
 
     #[Route('/{id}', name: 'app_book_show', methods: ['GET'])]
     public function show(Book $book): Response
     {
-        return $this->render('book/show.html.twig', [
-            'book' => $book,
-        ]);
+        return $this->render('book/show.html.twig', ['book' => $book]);
     }
 
     #[Route('/{id}/edit', name: 'app_book_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Book $book, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Book $book, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(BookType::class, $book);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
+            $em->flush();
+            return $this->redirectToRoute('app_book_index');
         }
 
-        return $this->render('book/edit.html.twig', [
-            'book' => $book,
-            'form' => $form,
-        ]);
+        return $this->render('book/edit.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id}', name: 'app_book_delete', methods: ['POST'])]
-    public function delete(Request $request, Book $book, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: 'app_book_delete', methods: ['POST'])]
+    public function delete(Request $request, Book $book, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$book->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($book);
-            $entityManager->flush();
+            $em->remove($book);
+            $em->flush();
         }
 
-        return $this->redirectToRoute('app_book_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_book_index');
     }
 }

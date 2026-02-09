@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Pedido{% endblock %}
+{% block title %}{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}{% endblock %}
 
 {% block body %}
-    <h1>Create new Pedido</h1>
+    <h1>{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}</h1>
 
-    {{ include('pedido/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button>{{ pedido.id ? 'Actualizar' : 'Crear' }}</button>
+    {{ form_end(form) }}
 
-    <a href="{{ path('app_pedido_index') }}">back to list</a>
+    <a href="{{ path('app_pedido_index') }}">Volver a la lista</a>
 {% endblock %}

@@ -1,21 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Book index{% endblock %}
+{% block title %}Libros{% endblock %}
 
 {% block body %}
-    <h1>Book index</h1>
+    <h1>Libros</h1>
+    <a href="{{ path('app_book_new') }}">Crear nuevo libro</a>
 
-    <table class="table">
+    <table>
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titulo</th>
-                <th>Autor</th>
-                <th>Descripcion</th>
-                <th>Estado</th>
-                <th>Precio</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoria</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
         </thead>
         <tbody>
         {% for book in books %}
@@ -23,21 +24,21 @@
                 <td>{{ book.id }}</td>
                 <td>{{ book.titulo }}</td>
                 <td>{{ book.autor }}</td>
-                <td>{{ book.descripcion }}</td>
+                <td>{{ book.categoria }}</td>
+                <td>{{ book.precio }} €</td>
                 <td>{{ book.estado }}</td>
-                <td>{{ book.precio }}</td>
                 <td>
-                    <a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
-                    <a href="{{ path('app_book_edit', {'id': book.id}) }}">edit</a>
+                    <a href="{{ path('app_book_show', {'id': book.id}) }}">Ver</a>
+                    <a href="{{ path('app_book_edit', {'id': book.id}) }}">Editar</a>
+                    <form method="post" action="{{ path('app_book_delete', {'id': book.id}) }}" style="display:inline-block">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
+                        <button type="submit">Borrar</button>
+                    </form>
                 </td>
             </tr>
         {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
+            <tr><td colspan="7">No hay libros</td></tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_book_new') }}">Create new</a>
 {% endblock %}

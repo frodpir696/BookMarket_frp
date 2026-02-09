@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block body %}
+    <h1>Lista de usuarios</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Nombre</th>
+            <th>Roles</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.nombre }}</td>
+                <td>{{ u.roles|join(', ') }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="4">No hay usuarios</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

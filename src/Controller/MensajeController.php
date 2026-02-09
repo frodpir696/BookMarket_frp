@@ -9,72 +9,54 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/mensaje')]
 final class MensajeController extends AbstractController
 {
-    #[Route('/', name: 'mensaje_index', methods: ['GET'])]
+    #[Route('/', name: 'app_mensaje_index', methods: ['GET'])]
     public function index(MensajeRepository $mensajeRepository): Response
     {
         return $this->render('mensaje/index.html.twig', [
-            'mensajes' => $mensajeRepository->findAll(),
+            'mensajes' => $mensajeRepository->findBy(['receptor' => $this->getUser()]),
         ]);
     }
 
-    #[Route('/nuevo', name: 'mensaje_nuevo', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'app_mensaje_new', methods: ['GET','POST'])]
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $mensaje = new Mensaje();
+        $mensaje->setEmisor($this->getUser());
         $form = $this->createForm(MensajeType::class, $mensaje);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($mensaje);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('mensaje_index', [], Response::HTTP_SEE_OTHER);
+            $mensaje->setFechaEnvio(new \DateTimeImmutable());
+            $em->persist($mensaje);
+            $em->flush();
+            return $this->redirectToRoute('app_mensaje_index');
         }
 
-        return $this->render('mensaje/new.html.twig', [
-            'mensaje' => $mensaje,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('mensaje/new.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id}', name: 'mensaje_mostrar', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_mensaje_show', methods: ['GET'])]
     public function show(Mensaje $mensaje): Response
     {
-        return $this->render('mensaje/show.html.twig', [
-            'mensaje' => $mensaje,
-        ]);
-    }
-
-    #[Route('/{id}/editar', name: 'mensaje_editar', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Mensaje $mensaje, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(MensajeType::class, $mensaje);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            return $this->redirectToRoute('mensaje_index', [], Response::HTTP_SEE_OTHER);
+        if ($mensaje->getReceptor() !== $this->getUser() && $mensaje->getEmisor() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
         }
 
-        return $this->render('mensaje/edit.html.twig', [
-            'mensaje' => $mensaje,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('mensaje/show.html.twig', ['mensaje' => $mensaje]);
     }
 
-    #[Route('/{id}', name: 'mensaje_borrar', methods: ['POST'])]
-    public function delete(Request $request, Mensaje $mensaje, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: 'app_mensaje_delete', methods: ['POST'])]
+    public function delete(Request $request, Mensaje $mensaje, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$mensaje->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($mensaje);
-            $entityManager->flush();
+            $em->remove($mensaje);
+            $em->flush();
         }
-
-        return $this->redirectToRoute('mensaje_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_mensaje_index');
     }
 }

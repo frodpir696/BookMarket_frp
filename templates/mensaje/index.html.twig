@@ -1,20 +1,34 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MensajeController!{% endblock %}
+{% block title %}Mensajes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <h1>Mensajes</h1>
+    <a href="{{ path('app_mensaje_new') }}">Nuevo mensaje</a>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/fran/proyectos/bookmarket/src/Controller/MensajeController.php</code></li>
-        <li>Your template at <code>/home/fran/proyectos/bookmarket/templates/mensaje/index.html.twig</code></li>
-    </ul>
-</div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Contenido</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for msg in mensajes %}
+            <tr>
+                <td>{{ msg.id }}</td>
+                <td>{{ msg.remitente.email }}</td>
+                <td>{{ msg.destinatario.email }}</td>
+                <td>{{ msg.contenido }}</td>
+                <td>{{ msg.fecha|date('Y-m-d H:i') }}</td>
+            </tr>
+        {% else %}
+            <tr><td colspan="5">No hay mensajes</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
+

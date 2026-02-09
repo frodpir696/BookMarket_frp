@@ -21,54 +21,28 @@ class Categoria
     #[ORM\OneToMany(mappedBy: 'categoria', targetEntity: Book::class)]
     private Collection $books;
 
-    public function __construct()
-    {
-        $this->books = new ArrayCollection();
-    }
+    public function __construct() { $this->books = new ArrayCollection(); }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
+    public function getNombre(): ?string { return $this->nombre; }
+    public function setNombre(string $nombre): static { $this->nombre = $nombre; return $this; }
 
-    public function getNombre(): ?string
-    {
-        return $this->nombre;
-    }
-
-    public function setNombre(string $nombre): static
-    {
-        $this->nombre = $nombre;
-        return $this;
-    }
-
-    public function getBooks(): Collection
-    {
-        return $this->books;
-    }
-
-    public function addBook(Book $book): static
-    {
+    /** @return Collection<int, Book> */
+    public function getBooks(): Collection { return $this->books; }
+    public function addBook(Book $book): static {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
             $book->setCategoria($this);
         }
         return $this;
     }
-
-    public function removeBook(Book $book): static
-    {
+    public function removeBook(Book $book): static {
         if ($this->books->removeElement($book)) {
-            if ($book->getCategoria() === $this) {
-                $book->setCategoria(null);
-            }
+            if ($book->getCategoria() === $this) { $book->setCategoria(null); }
         }
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->nombre ?? '';
-    }
+    public function __toString(): string { return $this->nombre ?? ''; }
 }
 

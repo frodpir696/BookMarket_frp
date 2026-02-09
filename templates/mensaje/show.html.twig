@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mensaje{% endblock %}
+
+{% block body %}
+    <h1>Mensaje de {{ mensaje.emisor.email }} a {{ mensaje.receptor.email }}</h1>
+
+    <p>{{ mensaje.contenido }}</p>
+    <p><strong>Fecha:</strong> {{ mensaje.fechaEnvio|date('Y-m-d H:i') }}</p>
+    <p><strong>Leído:</strong> {{ mensaje.leido ? 'Sí' : 'No' }}</p>
+
+    <a href="{{ path('mensaje_index') }}">Volver</a>
+{% endblock %}

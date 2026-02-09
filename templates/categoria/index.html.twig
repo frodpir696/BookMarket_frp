@@ -1,35 +1,24 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categoria index{% endblock %}
+{% block title %}Categorías{% endblock %}
 
 {% block body %}
-    <h1>Categoria index</h1>
+    <h1>Categorías</h1>
+    <a href="{{ path('app_categoria_new') }}">Nueva categoría</a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for categorium in categorias %}
-            <tr>
-                <td>{{ categorium.id }}</td>
-                <td>{{ categorium.nombre }}</td>
-                <td>
-                    <a href="{{ path('app_categoria_show', {'id': categorium.id}) }}">show</a>
-                    <a href="{{ path('app_categoria_edit', {'id': categorium.id}) }}">edit</a>
-                </td>
-            </tr>
+    <ul>
+        {% for cat in categorias %}
+            <li>
+                {{ cat.nombre }}
+                <a href="{{ path('app_categoria_show', {'id': cat.id}) }}">Ver</a>
+                <a href="{{ path('app_categoria_edit', {'id': cat.id}) }}">Editar</a>
+                <form method="post" action="{{ path('app_categoria_delete', {'id': cat.id}) }}" style="display:inline-block">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cat.id) }}">
+                    <button type="submit">Borrar</button>
+                </form>
+            </li>
         {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
+            <li>No hay categorías</li>
         {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_categoria_new') }}">Create new</a>
+    </ul>
 {% endblock %}

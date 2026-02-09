@@ -1,26 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categoria{% endblock %}
+{% block title %}{{ categorium.nombre }}{% endblock %}
 
 {% block body %}
-    <h1>Categoria</h1>
+    <h1>{{ categorium.nombre }}</h1>
+    <p>Libros en esta categoría:</p>
+    <ul>
+        {% for book in categorium.books %}
+            <li>{{ book.titulo }}</li>
+        {% else %}
+            <li>No hay libros en esta categoría</li>
+        {% endfor %}
+    </ul>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ categorium.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ categorium.nombre }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_categoria_index') }}">back to list</a>
-
-    <a href="{{ path('app_categoria_edit', {'id': categorium.id}) }}">edit</a>
-
-    {{ include('categoria/_delete_form.html.twig') }}
+    <a href="{{ path('app_categoria_edit', {'id': categorium.id}) }}">Editar</a>
+    <a href="{{ path('app_categoria_index') }}">Volver a la lista</a>
 {% endblock %}

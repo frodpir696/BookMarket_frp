@@ -9,12 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/valoracion')]
 final class ValoracionController extends AbstractController
 {
-    #[Route('/', name: 'valoracion_index', methods: ['GET'])]
+    #[Route('/', name: 'app_valoracion_index', methods: ['GET'])]
     public function index(ValoracionRepository $valoracionRepository): Response
     {
         return $this->render('valoracion/index.html.twig', [
@@ -22,59 +22,51 @@ final class ValoracionController extends AbstractController
         ]);
     }
 
-    #[Route('/nuevo', name: 'valoracion_nuevo', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new', name: 'app_valoracion_new', methods: ['GET','POST'])]
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $valoracion = new Valoracion();
+        $valoracion->setEmisor($this->getUser());
         $form = $this->createForm(ValoracionType::class, $valoracion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($valoracion);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('valoracion_index', [], Response::HTTP_SEE_OTHER);
+            $valoracion->setFecha(new \DateTimeImmutable());
+            $em->persist($valoracion);
+            $em->flush();
+            return $this->redirectToRoute('app_valoracion_index');
         }
 
-        return $this->render('valoracion/new.html.twig', [
-            'valoracion' => $valoracion,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('valoracion/new.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id}', name: 'valoracion_mostrar', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_valoracion_show', methods: ['GET'])]
     public function show(Valoracion $valoracion): Response
     {
-        return $this->render('valoracion/show.html.twig', [
-            'valoracion' => $valoracion,
-        ]);
+        return $this->render('valoracion/show.html.twig', ['valoracion' => $valoracion]);
     }
 
-    #[Route('/{id}/editar', name: 'valoracion_editar', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Valoracion $valoracion, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'app_valoracion_edit', methods: ['GET','POST'])]
+    public function edit(Request $request, Valoracion $valoracion, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ValoracionType::class, $valoracion);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-            return $this->redirectToRoute('valoracion_index', [], Response::HTTP_SEE_OTHER);
+            $em->flush();
+            return $this->redirectToRoute('app_valoracion_index');
         }
 
-        return $this->render('valoracion/edit.html.twig', [
-            'valoracion' => $valoracion,
-            'form' => $form->createView(),
-        ]);
+        return $this->render('valoracion/edit.html.twig', ['form' => $form->createView()]);
     }
 
-    #[Route('/{id}', name: 'valoracion_borrar', methods: ['POST'])]
-    public function delete(Request $request, Valoracion $valoracion, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: 'app_valoracion_delete', methods: ['POST'])]
+    public function delete(Request $request, Valoracion $valoracion, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$valoracion->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($valoracion);
-            $entityManager->flush();
+            $em->remove($valoracion);
+            $em->flush();
         }
-
-        return $this->redirectToRoute('valoracion_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_valoracion_index');
     }
 }

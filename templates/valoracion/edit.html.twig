@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ valoracion.id ? 'Editar Valoración' : 'Nueva Valoración' }}{% endblock %}
+
+{% block body %}
+    <h1>{{ valoracion.id ? 'Editar Valoración' : 'Nueva Valoración' }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button>{{ valoracion.id ? 'Actualizar' : 'Crear' }}</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_valoracion_index') }}">Volver a la lista</a>
+{% endblock %}

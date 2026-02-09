@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valoración #{{ valoracion.id }}{% endblock %}
+
+{% block body %}
+    <h1>Valoración #{{ valoracion.id }}</h1>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Puntuación</th>
+            <td>{{ valoracion.puntuacion }}</td>
+        </tr>
+        <tr>
+            <th>Comentario</th>
+            <td>{{ valoracion.comentario }}</td>
+        </tr>
+        <tr>
+            <th>Fecha</th>
+            <td>{{ valoracion.fecha ? valoracion.fecha|date('Y-m-d H:i') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Emisor</th>
+            <td>{{ valoracion.emisor ? valoracion.emisor.email : '' }}</td>
+        </tr>
+        <tr>
+            <th>Receptor</th>
+            <td>{{ valoracion.receptor ? valoracion.receptor.email : '' }}</td>
+        </tr>
+    </table>
+
+    <a href="{{ path('valoracion_index') }}" class="btn btn-secondary">Volver al listado</a>
+    <a href="{{ path('valoracion_editar', {'id': valoracion.id}) }}" class="btn btn-warning">Editar</a>
+
+    <form method="post" action="{{ path('valoracion_borrar', {'id': valoracion.id}) }}" style="display:inline-block;" onsubmit="return confirm('¿Seguro que quieres borrar esta valoración?');">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ valoracion.id) }}">
+        <button class="btn btn-danger">Borrar</button>
+    </form>
+{% endblock %}
