@@ -1,0 +1,23 @@
+[33ma4b1643[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Versión 0.4: Reestructuración, ajustes e implementación de nuevas funcionalidades
+[33mc0a5443[m Versión 0.4: Reestructuración, ajustes e implementación de nuevas funcionalidades
+[33m8bca518[m Update README.md
+[33m0dcf10a[m Merge pull request #5 from fr4nc15c0-15/codex/fix-user-registration-and-implement-cart-window-3iu2gt
+[33mbfd3335[m Merge branch 'main' into codex/fix-user-registration-and-implement-cart-window-3iu2gt
+[33meac7741[m Documenta montaje paso a paso e importación de SQL
+[33m9b32b57[m Merge pull request #4 from fr4nc15c0-15/codex/fix-user-registration-and-implement-cart-window-yr7nb3
+[33me2a70f8[m[33m ([m[1;31morigin/codex/fix-user-registration-and-implement-cart-window-yr7nb3[m[33m)[m Amplía datos SQL y muestra libros al entrar en categoría
+[33mb8e89ce[m Merge pull request #3 from fr4nc15c0-15/fix-user-registration-and-implement-cart-window
+[33m0ebe460[m[33m ([m[1;31morigin/codex/fix-user-registration-and-implement-cart-window[m[33m)[m Arregla registro y añade carrito funcional con documentación
+[33m11cd9da[m no se ya
+[33m0c730c4[m Merge pull request #2 from fr4nc15c0-15/codex/review-and-update-bookmarket-entities-i84kzy
+[33m5206869[m[33m ([m[1;31morigin/codex/review-and-update-bookmarket-entities-i84kzy[m[33m)[m Add MariaDB seed data SQL file for BookMarket
+[33m4d0b59e[m Merge pull request #1 from fr4nc15c0-15/codex/review-and-update-bookmarket-entities
+[33m8bf3c46[m[33m ([m[1;31morigin/codex/review-and-update-bookmarket-entities[m[33m)[m Refactor BookMarket to final 6-entity DAW architecture
+[33m49de1b8[m Version 0.3: Despues de cambio masivo, a falta de documentar cambios
+[33mc989636[m Antes de cambio masivo
+[33m39badd8[m Versión 0.2: Crear entidades y controladores CRUD iniciales
+[33m23451b4[m Versión 0.1: Eliminar archivos .env sensibles y actualizar .gitignore
+[33mc819705[m Versión 0.1: README inicial y configuración de proyecto
+[33m39c4082[m Proyecto Symfony BookMarket - estructura inicial
+[33m2806b6e[m Add webapp packages
+[33mb471500[m Add initial set of files
