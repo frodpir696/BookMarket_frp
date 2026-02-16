@@ -1,24 +1,14 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Categorías{% endblock %}
-
 {% block body %}
-    <h1>Categorías</h1>
-    <a href="{{ path('app_categoria_new') }}">Nueva categoría</a>
-
-    <ul>
-        {% for cat in categorias %}
-            <li>
-                {{ cat.nombre }}
-                <a href="{{ path('app_categoria_show', {'id': cat.id}) }}">Ver</a>
-                <a href="{{ path('app_categoria_edit', {'id': cat.id}) }}">Editar</a>
-                <form method="post" action="{{ path('app_categoria_delete', {'id': cat.id}) }}" style="display:inline-block">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cat.id) }}">
-                    <button type="submit">Borrar</button>
-                </form>
-            </li>
-        {% else %}
-            <li>No hay categorías</li>
-        {% endfor %}
-    </ul>
+<h1>Listado de categorías</h1>
+<a class="btn btn-primary mb-2" href="{{ path('app_categoria_new') }}">Nueva categoría</a>
+<ul>
+{% for categoria in categorias %}
+<li>
+    <a href="{{ path('app_categoria_show', {'id': categoria.id}) }}">{{ categoria.nombre }}</a>
+    - <a href="{{ path('app_categoria_show', {'id': categoria.id}) }}">Ver libros</a>
+    | <a href="{{ path('app_categoria_edit', {'id': categoria.id}) }}">Editar</a>
+</li>
+{% else %}<li>No hay categorías.</li>{% endfor %}
+</ul>
 {% endblock %}

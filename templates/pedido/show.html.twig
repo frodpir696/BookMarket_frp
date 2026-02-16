@@ -1,21 +1,2 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Pedido #{{ pedido.id }}{% endblock %}
-
-{% block body %}
-    <h1>Pedido #{{ pedido.id }}</h1>
-
-    <p><strong>Fecha:</strong> {{ pedido.fecha|date('Y-m-d H:i') }}</p>
-    <p><strong>Estado:</strong> {{ pedido.estado }}</p>
-    <p><strong>Total:</strong> {{ pedido.total }} €</p>
-    <p><strong>Comprador:</strong> {{ pedido.comprador.email }}</p>
-    <p><strong>Libros:</strong></p>
-    <ul>
-        {% for book in pedido.books %}
-            <li>{{ book.titulo }}</li>
-        {% endfor %}
-    </ul>
-
-    <a href="{{ path('app_pedido_edit', {'id': pedido.id}) }}">Editar</a>
-    <a href="{{ path('app_pedido_index') }}">Volver a la lista</a>
-{% endblock %}
+{% block body %}<p>Detalle no implementado en esta versión DAW.</p>{% endblock %}

@@ -1,14 +1,2 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}{% endblock %}
-
-{% block body %}
-    <h1>{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button>{{ pedido.id ? 'Actualizar' : 'Crear' }}</button>
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_pedido_index') }}">Volver a la lista</a>
-{% endblock %}
+{% block body %}<p>Edición no implementada en esta versión DAW.</p>{% endblock %}

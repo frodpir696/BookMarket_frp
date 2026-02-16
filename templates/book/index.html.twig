@@ -1,44 +1,23 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Libros{% endblock %}
-
 {% block body %}
-    <h1>Libros</h1>
-    <a href="{{ path('app_book_new') }}">Crear nuevo libro</a>
-
-    <table>
-        <thead>
+<h1>Listado de libros</h1>
+<a class="btn btn-primary mb-2" href="{{ path('app_book_new') }}">Nuevo libro</a>
+<table class="table">
+    <thead><tr><th>Título</th><th>Autor</th><th>Precio</th><th>Acciones</th></tr></thead>
+    <tbody>
+    {% for book in books %}
         <tr>
-            <th>ID</th>
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Categoria</th>
-            <th>Precio</th>
-            <th>Estado</th>
-            <th>Acciones</th>
+            <td>{{ book.titulo }}</td><td>{{ book.autor }}</td><td>{{ book.precio }}</td>
+            <td>
+                <a href="{{ path('app_book_show', {'id': book.id}) }}">Ver</a> |
+                <a href="{{ path('app_book_edit', {'id': book.id}) }}">Editar</a>
+                <form class="d-inline ms-2" method="post" action="{{ path('app_carrito_add', {'id': book.id}) }}">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Añadir al carrito</button>
+                </form>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            <tr>
-                <td>{{ book.id }}</td>
-                <td>{{ book.titulo }}</td>
-                <td>{{ book.autor }}</td>
-                <td>{{ book.categoria }}</td>
-                <td>{{ book.precio }} €</td>
-                <td>{{ book.estado }}</td>
-                <td>
-                    <a href="{{ path('app_book_show', {'id': book.id}) }}">Ver</a>
-                    <a href="{{ path('app_book_edit', {'id': book.id}) }}">Editar</a>
-                    <form method="post" action="{{ path('app_book_delete', {'id': book.id}) }}" style="display:inline-block">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ book.id) }}">
-                        <button type="submit">Borrar</button>
-                    </form>
-                </td>
-            </tr>
-        {% else %}
-            <tr><td colspan="7">No hay libros</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% else %}<tr><td colspan="4">No hay libros.</td></tr>{% endfor %}
+    </tbody>
+</table>
 {% endblock %}

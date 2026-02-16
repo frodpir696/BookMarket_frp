@@ -1,34 +1,10 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Mensajes{% endblock %}
-
 {% block body %}
-    <h1>Mensajes</h1>
-    <a href="{{ path('app_mensaje_new') }}">Nuevo mensaje</a>
-
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Remitente</th>
-            <th>Destinatario</th>
-            <th>Contenido</th>
-            <th>Fecha</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for msg in mensajes %}
-            <tr>
-                <td>{{ msg.id }}</td>
-                <td>{{ msg.remitente.email }}</td>
-                <td>{{ msg.destinatario.email }}</td>
-                <td>{{ msg.contenido }}</td>
-                <td>{{ msg.fecha|date('Y-m-d H:i') }}</td>
-            </tr>
-        {% else %}
-            <tr><td colspan="5">No hay mensajes</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<h1>Mensajes</h1>
+<a href="{{ path('app_mensaje_new') }}" class="btn btn-primary mb-2">Nuevo mensaje</a>
+<ul>
+{% for mensaje in mensajes %}
+<li>{{ mensaje.contenido }} - {{ mensaje.fecha|date('d/m/Y H:i') }}</li>
+{% else %}<li>No hay mensajes.</li>{% endfor %}
+</ul>
 {% endblock %}
-

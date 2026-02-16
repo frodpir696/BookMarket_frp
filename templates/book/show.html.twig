@@ -1,16 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ book.titulo }}{% endblock %}
-
 {% block body %}
-    <h1>{{ book.titulo }}</h1>
-
-    <p><strong>Autor:</strong> {{ book.autor }}</p>
-    <p><strong>Descripción:</strong> {{ book.descripcion }}</p>
-    <p><strong>Categoria:</strong> {{ book.categoria }}</p>
-    <p><strong>Precio:</strong> {{ book.precio }} €</p>
-    <p><strong>Estado:</strong> {{ book.estado }}</p>
-
-    <a href="{{ path('app_book_edit', {'id': book.id}) }}">Editar</a>
-    <a href="{{ path('app_book_index') }}">Volver a la lista</a>
+<h1>{{ book.titulo }}</h1>
+<p><strong>Autor:</strong> {{ book.autor }}</p>
+<p><strong>Descripción:</strong> {{ book.descripcion }}</p>
+<p><strong>Precio:</strong> {{ book.precio }}</p>
+<form class="mb-3" method="post" action="{{ path('app_carrito_add', {'id': book.id}) }}">
+    <button type="submit" class="btn btn-primary btn-sm">Añadir al carrito</button>
+</form>
+<a href="{{ path('app_book_index') }}">Volver</a>
 {% endblock %}

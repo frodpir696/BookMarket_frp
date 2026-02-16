@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi carrito{% endblock %}
+
+{% block body %}
+    <h1>Mi carrito</h1>
+
+    {% if carrito.libros|length > 0 %}
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for libro in carrito.libros %}
+                <tr>
+                    <td>{{ libro.titulo }}</td>
+                    <td>{{ libro.autor }}</td>
+                    <td>{{ libro.precio }} €</td>
+                    <td>
+                        <form method="post" action="{{ path('app_carrito_remove', {'id': libro.id}) }}">
+                            <button class="btn btn-sm btn-outline-danger">Quitar</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="alert alert-info">
+            <strong>Total:</strong> {{ carrito.total|number_format(2, ',', '.') }} €
+        </div>
+    {% else %}
+        <p class="text-muted">Tu carrito está vacío.</p>
+    {% endif %}
+
+    <a class="btn btn-secondary" href="{{ path('app_book_index') }}">Seguir comprando</a>
+{% endblock %}

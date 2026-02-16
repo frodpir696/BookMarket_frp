@@ -1,14 +1,9 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}{% endblock %}
-
 {% block body %}
-    <h1>{{ pedido.id ? 'Editar Pedido' : 'Nuevo Pedido' }}</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button>{{ pedido.id ? 'Actualizar' : 'Crear' }}</button>
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_pedido_index') }}">Volver a la lista</a>
+{# Formulario básico para crear un pedido #}
+<h1>Nuevo pedido</h1>
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn btn-success">Guardar pedido</button>
+{{ form_end(form) }}
 {% endblock %}

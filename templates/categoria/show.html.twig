@@ -1,18 +1,35 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ categorium.nombre }}{% endblock %}
-
 {% block body %}
-    <h1>{{ categorium.nombre }}</h1>
-    <p>Libros en esta categoría:</p>
-    <ul>
-        {% for book in categorium.books %}
-            <li>{{ book.titulo }}</li>
-        {% else %}
-            <li>No hay libros en esta categoría</li>
-        {% endfor %}
-    </ul>
+<h1>{{ categoria.nombre }}</h1>
+<p>{{ categoria.descripcion }}</p>
 
-    <a href="{{ path('app_categoria_edit', {'id': categorium.id}) }}">Editar</a>
-    <a href="{{ path('app_categoria_index') }}">Volver a la lista</a>
+<h2 class="mt-4">Libros de esta categoría</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Precio</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+        <tr>
+            <td>{{ book.titulo }}</td>
+            <td>{{ book.autor }}</td>
+            <td>{{ book.precio }} €</td>
+            <td>
+                <a href="{{ path('app_book_show', {'id': book.id}) }}">Ver</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="4">No hay libros publicados en esta categoría.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('app_categoria_index') }}">Volver</a>
 {% endblock %}

@@ -1,14 +1,5 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ categorium.id ? 'Editar Categoría' : 'Nueva Categoría' }}{% endblock %}
-
 {% block body %}
-    <h1>{{ categorium.id ? 'Editar Categoría' : 'Nueva Categoría' }}</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button>{{ categorium.id ? 'Actualizar' : 'Crear' }}</button>
-    {{ form_end(form) }}
-
-    <a href="{{ path('app_categoria_index') }}">Volver a la lista</a>
+<h1>Nueva categoría</h1>
+{{ form_start(form) }}{{ form_widget(form) }}<button class="btn btn-success">Guardar</button>{{ form_end(form) }}
 {% endblock %}

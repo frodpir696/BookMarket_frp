@@ -18,10 +18,10 @@
 # Node.js
 /node_modules/
 
-# Archivos de entorno
-/.env.dev
-/.env.test
-/.env
+# Archivos de entorno (en teoria no se suben)
+#/.env.dev
+#/.env.test
+#/.env
 
 # Archivos del sistema / IDE
 .DS_Store

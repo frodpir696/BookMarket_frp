@@ -1,108 +1,33 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Inicio - BookMarket{% endblock %}
-{% extends 'base.html.twig' %}
-
-{% block title %}Inicio - BookMarket{% endblock %}
 
 {% block body %}
-    <h1 class="mb-4">Bienvenido a BookMarket</h1>
+    {# Página index explicando el proyecto, nivel DAW #}
+    <h1>Bienvenido a BookMarket</h1>
+    <p>
+        BookMarket es una plataforma de compraventa de libros usados.
+        Los usuarios pueden publicar libros, clasificarlos por categorías y gestionar compras de forma sencilla.
+    </p>
 
-    <div class="row">
+    <h2 class="mt-4">Últimos libros publicados</h2>
+    <ul>
+        {% for book in books %}
+            <li>{{ book.titulo }} - {{ book.autor }} ({{ book.categoria.nombre }})</li>
+        {% else %}
+            <li>No hay libros todavía.</li>
+        {% endfor %}
+    </ul>
 
-        {# Últimos 5 libros #}
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-primary text-white">Últimos Libros</div>
-                <ul class="list-group list-group-flush">
-                    {% for book in books %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ path('app_book_show', {'id': book.id}) }}">{{ book.titulo }}</a>
-                            <span class="badge bg-secondary rounded-pill">{{ book.categoria.nombre }}</span>
-                        </li>
-                    {% else %}
-                        <li class="list-group-item">No hay libros recientes.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        {# Categorías #}
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-success text-white">Categorías</div>
-                <ul class="list-group list-group-flush">
-                    {% for categoria in categorias %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ categoria.nombre }}
-                            <span class="badge bg-primary rounded-pill">{{ categoria.books|length }}</span>
-                        </li>
-                    {% else %}
-                        <li class="list-group-item">No hay categorías.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-
-        {# Últimas valoraciones #}
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-header bg-warning text-dark">Últimas Valoraciones</div>
-                <ul class="list-group list-group-flush">
-                    {% for valoracion in valoraciones %}
-                        <li class="list-group-item">
-                            <strong>{{ valoracion.emisor.username }}</strong> sobre
-                            <em>{{ valoracion.book.titulo }}</em>:
-                            "{{ valoracion.comentario }}"
-                            <span class="text-muted float-end">{{ valoracion.fecha|date('d/m/Y') }}</span>
-                        </li>
-                    {% else %}
-                        <li class="list-group-item">No hay valoraciones recientes.</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-
-        {# Mini dashboard usuario #}
-        {% if app.user %}
-            <div class="col-md-6 mb-4">
-
-                {# Pedidos recientes #}
-                <div class="card mb-3">
-                    <div class="card-header bg-info text-white">Mis Pedidos Recientes</div>
-                    <ul class="list-group list-group-flush">
-                        {% for pedido in pedidos %}
-                            <li class="list-group-item">
-                                Pedido #{{ pedido.id }} - {{ pedido.estado }}
-                                <span class="text-muted float-end">{{ pedido.fecha|date('d/m/Y') }}</span>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">No tienes pedidos recientes.</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-                {# Mensajes recientes #}
-                <div class="card">
-                    <div class="card-header bg-secondary text-white">Mis Mensajes Recientes</div>
-                    <ul class="list-group list-group-flush">
-                        {% for mensaje in mensajes %}
-                            <li class="list-group-item">
-                                De: <strong>{{ mensaje.emisor.username }}</strong>
-                                <a href="{{ path('app_mensaje_show', {'id': mensaje.id}) }}" class="float-end btn btn-sm btn-outline-primary">Ver</a>
-                            </li>
-                        {% else %}
-                            <li class="list-group-item">No tienes mensajes recientes.</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
-            </div>
-        {% endif %}
-
-    </div>
+    <h2 class="mt-4">Categorías disponibles</h2>
+    <ul>
+        {% for categoria in categorias %}
+            <li>
+                <a href="{{ path('app_categoria_show', {'id': categoria.id}) }}">{{ categoria.nombre }}</a>
+                : {{ categoria.descripcion }}
+            </li>
+        {% else %}
+            <li>No hay categorías.</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

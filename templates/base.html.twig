@@ -1,8 +1,9 @@
+{# Plantilla base reutilizable para toda la aplicación #}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}BookMarket{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -10,111 +11,30 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container">
         <a class="navbar-brand" href="{{ path('home') }}">BookMarket</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav me-auto">
-
-                <li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</a></li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="usuariosDropdown" role="button" data-bs-toggle="dropdown">
-                        Usuarios
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="usuariosDropdown">
-                        <li><a class="dropdown-item" href="{{ path('usuario_index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_register') }}">Registrar</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown">
-                        Libros
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="booksDropdown">
-                        <li><a class="dropdown-item" href="{{ path('app_book_index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_book_new') }}">Nuevo</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown">
-                        Categorías
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
-                        <li><a class="dropdown-item" href="{{ path('app_categoria_index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_categoria_new') }}">Nuevo</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="pedidosDropdown" role="button" data-bs-toggle="dropdown">
-                        Pedidos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="pedidosDropdown">
-                        <li><a class="dropdown-item" href="{{ path('app_pedido_index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_pedido_new') }}">Nuevo</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="mensajesDropdown" role="button" data-bs-toggle="dropdown">
-                        Mensajes
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="mensajesDropdown">
-                        <li><a class="dropdown-item" href="{{ path('app_mensaje_index') }}">Recibidos</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_mensaje_new') }}">Nuevo</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="valoracionesDropdown" role="button" data-bs-toggle="dropdown">
-                        Valoraciones
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="valoracionesDropdown">
-                        <li><a class="dropdown-item" href="{{ path('app_valoracion_index') }}">Listado</a></li>
-                        <li><a class="dropdown-item" href="{{ path('app_valoracion_new') }}">Nueva</a></li>
-                    </ul>
-                </li>
-
-            </ul>
-
-            <ul class="navbar-nav ms-auto">
-                {% if app.user %}
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_profile') }}">Perfil</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_logout') }}"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="{{ path('app_logout') }}" method="POST" style="display: none;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('logout') }}">
-                        </form>
-                    </li>
-                {% else %}
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ path('app_register') }}">Registrar</a></li>
-                {% endif %}
-            </ul>
+        <div>
+            <a class="btn btn-sm btn-outline-light" href="{{ path('app_book_index') }}">Libros</a>
+            <a class="btn btn-sm btn-outline-light" href="{{ path('app_categoria_index') }}">Categorías</a>
+            {% if app.user %}
+                <a class="btn btn-sm btn-outline-info" href="{{ path('app_carrito_index') }}">Carrito</a>
+                <form class="d-inline" method="post" action="{{ path('app_logout') }}">
+                    <button class="btn btn-sm btn-warning">Salir</button>
+                </form>
+            {% else %}
+                <a class="btn btn-sm btn-success" href="{{ path('app_login') }}">Login</a>
+            {% endif %}
         </div>
     </div>
 </nav>
 
 <div class="container">
+    {# Bloque único para mostrar flashes de éxito/error #}
     {% for label, messages in app.flashes %}
         {% for message in messages %}
-            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+            <div class="alert alert-{{ label }}">{{ message }}</div>
         {% endfor %}
     {% endfor %}
 
     {% block body %}{% endblock %}
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
